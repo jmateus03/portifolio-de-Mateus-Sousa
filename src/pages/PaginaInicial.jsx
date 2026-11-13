@@ -12,7 +12,7 @@ const items = [
     links: [
       {
         label: "Conhecer",
-        href: "/sobre"
+        href: "/sobremim"
       }
     ]
   },
@@ -54,7 +54,7 @@ export default function PaginaInicial() {
       <Navbar
         items={items}
         cta={botaoLogo}
-        maxWidth={1250}
+        maxWidth={1400}
       />
 
       <div className="absolute inset-0 z-0">

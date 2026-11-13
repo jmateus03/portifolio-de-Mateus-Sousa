@@ -1,9 +1,10 @@
 
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom"
 import { AnimatePresence } from "motion/react"
-
-import PaginaInicial from "./pages/PaginaInicial"
 import Transicao from "./components/keyframes/Transicao"
+
+import SobreMim from "./pages/SobreMim"
+import PaginaInicial from "./pages/PaginaInicial"
 
 function Rotas() {
   const location = useLocation()
@@ -16,6 +17,14 @@ function Rotas() {
           element={
             <Transicao>
               <PaginaInicial />
+            </Transicao>
+          }
+        />
+        <Route
+          path="/sobremim"
+          element={
+            <Transicao>
+              <SobreMim/>
             </Transicao>
           }
         />
