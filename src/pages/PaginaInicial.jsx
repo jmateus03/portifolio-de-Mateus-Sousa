@@ -1,13 +1,61 @@
 
 import PatternWaves from "../components/backgrounds/PatternWaves"
 import Nome from "../components/Nome"
-import { useNavigate } from "react-router-dom"
+import Navbar from "../components/Navbar"
+
+const items = [
+  {
+    label: "Sobre mim",
+    description: "Conheça minha trajetória como desenvolvedor.",
+    bgColor: "#1A1A1A",
+    textColor: "#FFFFFF",
+    links: [
+      {
+        label: "Conhecer",
+        href: "/sobre"
+      }
+    ]
+  },
+  {
+    label: "Projetos",
+    description: "Confira alguns dos meus trabalhos.",
+    bgColor: "#1A1A1A",
+    textColor: "#FFFFFF",
+    links: [
+      {
+        label: "Ver projetos",
+        href: "/projetos"
+      }
+    ]
+  },
+  {
+    label: "Contato",
+    description: "Vamos desenvolver algo juntos?",
+    bgColor: "#1A1A1A",
+    textColor: "#FFFFFF",
+    links: [
+      {
+        label: "Entrar em contato",
+        href: "/contato"
+      }
+    ]
+  }
+]
+
+const botaoLogo = {
+  label: "Fale comigo",
+  href: "/contato"
+}
 
 export default function PaginaInicial() {
-  const navigate = useNavigate()
-
   return (
-    <section className="relative w-full min-h-screen overflow-hidden bg-[#090909]">
+    <section className="relative z-3 w-full min-h-screen overflow-hidden bg-[#090909]">
+
+      <Navbar
+        items={items}
+        cta={botaoLogo}
+        maxWidth={1250}
+      />
 
       <div className="absolute inset-0 z-0">
         <PatternWaves
@@ -16,9 +64,9 @@ export default function PaginaInicial() {
         />
       </div>
 
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center text-white">
+      <div className="absolute inset-0 z-2 flex items-center justify-center">
 
-        <div className="w-full h-[250px] z-1">
+        <div className="w-full flex justify-center">
           <Nome
             text="MATEUS SOUSA"
             fontFamily="geist mono"
@@ -28,30 +76,8 @@ export default function PaginaInicial() {
           />
         </div>
 
-        <p className="mt-4 rounded-3xl  border-2 border-white/50 bg-[#141414]/60 px-7 py-3 text-[#A3A3A3] backdrop-blur-2xl">
-          Programador Full-Stack em ascensão
-        </p>
-
-        <button
-          onClick={() => navigate("/portifolio")}
-          className="
-                      mt-8
-                      cursor-pointer
-                      rounded-xl 
-                      bg-[#737373]
-                      border-2
-                      border-white/50
-                      px-8
-                      py-3
-                      font-semibold
-                      text-white
-                      transition hover:scale-110
-                      hover:bg-[#A3A3A3]
-                      ">
-          Entrar
-        </button>
-
       </div>
+
     </section>
   )
 }
