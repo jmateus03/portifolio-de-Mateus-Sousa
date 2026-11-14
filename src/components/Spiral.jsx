@@ -60,9 +60,6 @@ const InfiniteSpiral = ({
     let previousTime = performance.now();
     let bounds = root.getBoundingClientRect();
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const scrollEnabled = animationMode === 'scroll' || animationMode === 'all';
-    const scrollSpeedMultiplier = Math.max(speed, 0) / 0.55;
-    let lastScrollY = window.scrollY;
     const resizeObserver = new ResizeObserver(() => {
       bounds = root.getBoundingClientRect();
     });
@@ -71,19 +68,6 @@ const InfiniteSpiral = ({
       visibleRef.current = entry.isIntersecting;
     });
     intersectionObserver.observe(root);
-
-    const handleScroll = () => {
-      const nextScrollY = window.scrollY;
-      const scrollDelta = nextScrollY - lastScrollY;
-      lastScrollY = nextScrollY;
-      if (!scrollEnabled || !visibleRef.current || scrollDelta === 0) return;
-      targetProgressRef.current += clamp(
-        (scrollDelta * scrollSpeedMultiplier) / Math.max(verticalSpacing * 2, 1),
-        -1.5,
-        1.5
-      );
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
 
     const render = time => {
       const delta = Math.min((time - previousTime) / 1000, 0.05);
@@ -140,7 +124,6 @@ const InfiniteSpiral = ({
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
-      window.removeEventListener('scroll', handleScroll);
     };
   }, [
     normalizedItems,

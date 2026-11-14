@@ -53,9 +53,12 @@ const BAR =
   'relative z-[2] box-border flex h-[var(--cn-bar)] items-center justify-between px-[var(--cn-inset)] group-data-[narrow]/cn:grid group-data-[narrow]/cn:grid-cols-[auto_1fr_auto]';
 const MENU =
   'inline-flex h-[calc(var(--cn-bar)_-_var(--cn-inset)*2)] cursor-pointer items-center gap-[12px] justify-self-start rounded-[calc(var(--cn-radius)_-_var(--cn-inset))] border-0 pl-[20px] pr-[20px] [background:none] [font-family:inherit] [font-size:15px] font-medium text-[var(--cn-text)] outline-none transition-[background-color] duration-200 ease-[ease] hover:[background:var(--cn-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[color:var(--cn-ring)] data-[icon-only]:w-[calc(var(--cn-bar)_-_var(--cn-inset)*2)] data-[icon-only]:justify-center data-[icon-only]:p-0 group-data-[narrow]/cn:col-[3] group-data-[narrow]/cn:row-[1] group-data-[narrow]/cn:justify-self-end';
-const CENTER_DECORATION = 'hidden md:flex items-center justify-center gap-2 whitespace-nowrap pointer-events-none group-data-[narrow]/cn:hidden';
-const CENTER_TEXT ='text-[11px] font-medium tracking-[0.18em] text-white/60 uppercase';
-const CENTER_SEPARATOR ='text-white/25 text-xs';
+const CENTER_DECORATION =
+  'pointer-events-none hidden md:flex items-center justify-center whitespace-nowrap group-data-[narrow]/cn:hidden';
+const CENTER_LINK =
+  'pointer-events-auto flex items-center gap-2 rounded-[6px] outline-none transition-opacity duration-200 hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[color:var(--cn-ring)]';
+const CENTER_TEXT = 'text-[11px] font-medium tracking-[0.18em] text-white/60 uppercase';
+const CENTER_SEPARATOR = 'text-white/25 text-xs';
 const BURGER = 'relative h-[12px] w-[18px]';
 const LINE_TOP =
   'absolute left-0 top-[2.25px] h-[1.5px] w-full rounded-[2px] bg-current transition-[top,rotate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/cn:top-[5.25px] group-data-[open]/cn:rotate-45 motion-reduce:transition-none';
@@ -203,15 +206,15 @@ const CardNav = ({
 
   const palette = THEMES[theme] ?? THEMES.dark;
   const vars = {
-  ...palette,
-  '--cn-max': `${maxWidth}px`,
-  '--cn-bar': '64px',
-  '--cn-inset': '8px',
-  '--cn-gap': '8px',
-  '--cn-radius': '18px',
-  '--cn-logo': '40px',
-  '--cn-card': `${cardHeight}px`
-};
+    ...palette,
+    '--cn-max': `${maxWidth}px`,
+    '--cn-bar': '64px',
+    '--cn-inset': '8px',
+    '--cn-gap': '8px',
+    '--cn-radius': '18px',
+    '--cn-logo': '40px',
+    '--cn-card': `${cardHeight}px`
+  };
   if (surface === 'glass') vars['--cn-blur'] = 'blur(20px) saturate(1.6)';
   if (surface === 'solid') {
     vars['--cn-panel'] = palette['--cn-solid'];
@@ -478,15 +481,11 @@ const CardNav = ({
           </button>
 
           <div className={CENTER_DECORATION}>
-            <span className={CENTER_TEXT}>
-              Desenvolvedor
-            </span>
-
-            <span className={CENTER_SEPARATOR}>/</span>
-
-            <span className={CENTER_TEXT}>
-              Full-Stack
-            </span>
+            <LinkComponent href="/" className={CENTER_LINK}>
+              <span className={CENTER_TEXT}>Desenvolvedor</span>
+              <span className={CENTER_SEPARATOR} aria-hidden="true">/</span>
+              <span className={CENTER_TEXT}>Full-Stack</span>
+            </LinkComponent>
           </div>
 
           {logo && (

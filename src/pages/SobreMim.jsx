@@ -130,13 +130,13 @@ export default function SobreMim() {
        
           <Spiral
             items={spiralCards}
-            speed={0.55}
-            animationMode={"drag"}
+            direction="down"
+            speed={0.2}
+            animationMode={"all"}
             cardRadius={15}
             edgeFade={0.35}
             edgeBlur={5}
             grayscale={0.7}
-            
           />
         </div>
     </main>
