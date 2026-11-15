@@ -5,6 +5,7 @@ import Transicao from "./components/keyframes/Transicao"
 
 import SobreMim from "./pages/SobreMim"
 import PaginaInicial from "./pages/PaginaInicial"
+import Projetos from "./pages/Projetos"
 
 function Rotas() {
   const location = useLocation()
@@ -25,6 +26,14 @@ function Rotas() {
           element={
             <Transicao>
               <SobreMim/>
+            </Transicao>
+          }
+        />
+        <Route
+          path="/projetos"
+          element={
+            <Transicao>
+              <Projetos />
             </Transicao>
           }
         />
