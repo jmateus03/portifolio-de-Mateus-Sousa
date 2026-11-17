@@ -50,7 +50,6 @@ function Rotas() {
             </Transicao>
           }
         />
-        />
 
         <Route
           path="*"
