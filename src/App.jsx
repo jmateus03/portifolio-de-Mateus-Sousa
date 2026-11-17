@@ -50,14 +50,6 @@ function Rotas() {
             </Transicao>
           }
         />
-
-        <Route
-          path="/contato"
-          element={
-            <Transicao>
-              <Contato />
-            </Transicao>
-          }
         />
 
         <Route
