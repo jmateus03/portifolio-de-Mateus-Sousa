@@ -16,6 +16,9 @@ import ReactLogo from "./../assets/spiralFotos/React.webp"
 import Supabase from "./../assets/spiralFotos/Supabase.webp"
 import Tailwind from "./../assets/spiralFotos/Tailwind.webp"
 import Vscode from "./../assets/spiralFotos/VScode.webp"
+import { useNavigate } from "react-router-dom"
+
+
 
 const navItems = [
   {
