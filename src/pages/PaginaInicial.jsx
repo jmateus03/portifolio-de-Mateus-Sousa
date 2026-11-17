@@ -12,7 +12,7 @@ const items = [
     links: [
       {
         label: "Conhecer",
-        href: "/sobremim"
+        href: "./sobremim"
       }
     ]
   },
