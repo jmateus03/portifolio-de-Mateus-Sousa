@@ -2,8 +2,6 @@ import { useRef } from "react"
 import FlipCard from "../components/FlipCard"
 import Navbar from "./../components/Navbar"
 
-import HandMouse from "./../assets/projetosFotos/handMouseController.png"
-
 const navItems = [
   {
     label: "Sobre mim",
@@ -33,17 +31,289 @@ const botaoLogo = {
   href: "/contato"
 }
 
+function Arte({ cor, children }) {
+  return (
+    <svg
+      viewBox="0 0 360 208"
+      className="pointer-events-none h-52 w-full rounded-2xl"
+      fill="none"
+      stroke={cor}
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <defs>
+        <pattern id="pontos" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#ffffff" opacity="0.08" stroke="none" />
+        </pattern>
+      </defs>
+      <rect width="360" height="208" fill="#0e0e0e" stroke="none" />
+      <rect width="360" height="208" fill="url(#pontos)" stroke="none" />
+      {children}
+    </svg>
+  )
+}
+
+const dedos = [
+  [[138, 134], [134, 108], [128, 92], [122, 86]],
+  [[158, 130], [160, 98], [161, 72], [162, 50]],
+  [[178, 134], [184, 106], [187, 84], [189, 64]],
+  [[196, 142], [206, 122], [212, 106], [216, 92]]
+]
+
+const polegar = [[122, 166], [104, 142], [106, 114], [112, 92]]
+
+const pontos = (lista) => lista.map((p) => p.join(",")).join(" ")
+
+function ArteHandMouse({ cor }) {
+  return (
+    <Arte cor={cor}>
+
+      <rect x="20" y="18" width="36" height="24" rx="5" strokeWidth="2.5" />
+      <circle cx="38" cy="30" r="6" strokeWidth="2.5" />
+      <circle cx="38" cy="30" r="2" fill={cor} stroke="none" />
+      <path d="M32 42 L28 50 H48 L44 42" strokeWidth="2.5" />
+
+      <polygon
+        points="156,184 122,166 138,134 158,130 178,134 196,142"
+        fill={cor}
+        fillOpacity="0.08"
+        strokeOpacity="0.5"
+        strokeWidth="2"
+      />
+
+      <polyline points={pontos([[156, 184], ...polegar])} strokeWidth="2.5" />
+      {dedos.map((dedo, i) => (
+        <polyline key={i} points={pontos(dedo)} strokeWidth="2.5" />
+      ))}
+
+      {[polegar, ...dedos].flatMap((dedo, i) =>
+        dedo.map(([x, y], j) => (
+          <circle
+            key={`${i}-${j}`}
+            cx={x}
+            cy={y}
+            r={j === dedo.length - 1 ? 5 : 3.5}
+            fill={j === dedo.length - 1 ? cor : "#0e0e0e"}
+            strokeWidth="2"
+          />
+        ))
+      )}
+      <circle cx="156" cy="184" r="4" fill={cor} stroke="none" />
+
+      <circle cx="117" cy="89" r="14" strokeDasharray="3 4" strokeWidth="2" />
+
+      <path d="M132 80 Q200 20 252 42" strokeDasharray="4 7" strokeWidth="2" />
+
+      <circle cx="262" cy="40" r="14" opacity="0.5" strokeWidth="2" />
+      <circle cx="262" cy="40" r="26" opacity="0.22" strokeWidth="2" />
+
+      <path
+        d="M262 40 L262 84 L273 74 L281 92 L289 88 L281 70 L296 70 Z"
+        fill={cor}
+        stroke="#0e0e0e"
+        strokeWidth="2"
+      />
+    </Arte>
+  )
+}
+
+function ArtePortfolio({ cor }) {
+  return (
+    <Arte cor={cor}>
+
+      <rect x="50" y="26" width="260" height="156" rx="10" fill={cor} fillOpacity="0.06" />
+      <line x1="50" y1="54" x2="310" y2="54" strokeWidth="2" />
+      <circle cx="68" cy="40" r="3.5" fill={cor} stroke="none" />
+      <circle cx="82" cy="40" r="3.5" fill={cor} stroke="none" opacity="0.6" />
+      <circle cx="96" cy="40" r="3.5" fill={cor} stroke="none" opacity="0.3" />
+
+      <circle cx="96" cy="94" r="16" />
+      <line x1="126" y1="86" x2="196" y2="86" />
+      <line x1="126" y1="102" x2="170" y2="102" strokeWidth="2" opacity="0.6" />
+
+      <rect x="72" y="130" width="52" height="38" rx="6" strokeWidth="2" />
+      <rect x="134" y="130" width="52" height="38" rx="6" strokeWidth="2" />
+      <rect x="196" y="130" width="52" height="38" rx="6" strokeWidth="2" opacity="0.5" />
+
+      <path
+        d="M270 110 m0 0 a4 4 0 0 1 8 0 a8 8 0 0 1 -16 0 a12 12 0 0 1 24 0 a16 16 0 0 1 -32 0"
+        strokeWidth="2"
+        opacity="0.8"
+      />
+    </Arte>
+  )
+}
+
+/* ---------- Clima ---------- */
+
+function ArteClima({ cor }) {
+  return (
+    <Arte cor={cor}>
+      <circle cx="132" cy="70" r="20" fill={cor} fillOpacity="0.2" />
+      <path
+        d="M132 36 V44 M132 96 V104 M98 70 H106 M158 70 H166 M108 46 L114 52 M150 88 L156 94 M156 46 L150 52 M114 88 L108 94"
+        strokeWidth="2.5"
+      />
+
+      <path
+        d="M96 140 Q76 140 78 120 Q80 102 100 104 Q104 82 132 82 Q160 82 164 106 Q184 104 186 124 Q186 140 168 140 Z"
+        fill="#0e0e0e"
+      />
+
+      <path d="M108 154 L102 168 M132 154 L126 168 M156 154 L150 168" strokeWidth="2.5" />
+
+      <path d="M194 112 H214" strokeDasharray="4 5" strokeWidth="2" />
+      <rect x="220" y="58" width="98" height="96" rx="8" fill={cor} fillOpacity="0.08" strokeWidth="2" />
+      <g fill={cor} stroke="none" fontFamily="monospace" fontSize="11">
+        <text x="230" y="80">{"{"}</text>
+        <text x="240" y="98">"temp": 28,</text>
+        <text x="240" y="114">"chuva": 80,</text>
+        <text x="240" y="130">"vento": 12</text>
+        <text x="230" y="146">{"}"}</text>
+      </g>
+    </Arte>
+  )
+}
+
+function Pessoa({ x, y, r = 14 }) {
+  return (
+    <g>
+      <circle cx={x} cy={y} r={r} fill="#0e0e0e" strokeWidth="2.5" />
+      <circle cx={x} cy={y - r * 0.2} r={r * 0.28} strokeWidth="2" />
+      <path
+        d={`M${x - r * 0.5} ${y + r * 0.6} Q${x} ${y + r * 0.05} ${x + r * 0.5} ${y + r * 0.6}`}
+        strokeWidth="2"
+      />
+    </g>
+  )
+}
+
+const nos = [
+  [74, 58],
+  [74, 150],
+  [286, 58],
+  [286, 150],
+  [180, 28],
+  [180, 182]
+]
+
+function ArteDrmConnect({ cor }) {
+  return (
+    <Arte cor={cor}>
+      {/* Conexões */}
+      {nos.map(([x, y]) => (
+        <line key={`l-${x}-${y}`} x1="180" y1="104" x2={x} y2={y} strokeWidth="2" opacity="0.4" />
+      ))}
+
+      {/* Usuários */}
+      {nos.map(([x, y]) => (
+        <Pessoa key={`p-${x}-${y}`} x={x} y={y} />
+      ))}
+
+      {/* Usuário central */}
+      <circle cx="180" cy="104" r="30" fill={cor} fillOpacity="0.12" />
+      <Pessoa x={180} y={104} r={26} />
+
+      {/* Coração */}
+      <path
+        d="M232 70 C218 58 224 46 232 54 C240 46 246 58 232 70 Z"
+        fill={cor}
+        stroke="none"
+      />
+
+      {/* Balão de mensagem */}
+      <path
+        d="M114 100 H146 Q152 100 152 106 V120 Q152 126 146 126 H128 L120 134 V126 H114 Q108 126 108 120 V106 Q108 100 114 100 Z"
+        strokeWidth="2"
+        fill="#0e0e0e"
+      />
+    </Arte>
+  )
+}
+
+function ArteEmBreve({ cor }) {
+  return (
+    <Arte cor={cor}>
+      <rect
+        x="110"
+        y="40"
+        width="140"
+        height="128"
+        rx="18"
+        strokeDasharray="6 9"
+        strokeWidth="2.5"
+        fill={cor}
+        fillOpacity="0.05"
+      />
+      <line x1="180" y1="82" x2="180" y2="126" strokeWidth="4" />
+      <line x1="158" y1="104" x2="202" y2="104" strokeWidth="4" />
+
+      <g fill={cor} stroke="none">
+        <path d="M78 52 L80 58 L86 60 L80 62 L78 68 L76 62 L70 60 L76 58 Z" />
+        <path d="M292 140 L294 146 L300 148 L294 150 L292 156 L290 150 L284 148 L290 146 Z" />
+        <path d="M296 44 L297.5 48 L302 49.5 L297.5 51 L296 55 L294.5 51 L290 49.5 L294.5 48 Z" opacity="0.6" />
+        <circle cx="64" cy="150" r="2.5" opacity="0.5" />
+      </g>
+    </Arte>
+  )
+}
+
+const GITHUB = "https://github.com/jmateus03"
+
 const projetos = [
+  {
+    titulo: "Portfólio",
+    tipo: "Web",
+    cor: "#A78BFA",
+    arte: ArtePortfolio,
+    resumo: "O site que você está vendo agora.",
+    detalhe: "Meu portfólio pessoal, com páginas sobre mim, projetos e contato. Tem animações de texto, uma espiral interativa com as tecnologias que uso e cartões de projeto que viram.",
+    stack: ["React", "Tailwind CSS"],
+    link: "https://github.com/jmateus03/portifolioJM",
+    textoLink: "Ver no GitHub"
+  },
+  {
+    titulo: "API de Clima",
+    tipo: "Web",
+    cor: "#38BDF8",
+    arte: ArteClima,
+    resumo: "Veja o tempo de qualquer cidade.",
+    detalhe: "Um site que consome a API do Open-Meteo para mostrar o clima de uma cidade, como temperatura, chance de chuva e vento, em uma interface simples feita com HTML, CSS e JavaScript.",
+    stack: ["HTML", "CSS", "JavaScript", "Open-Meteo"],
+    link: "https://github.com/jmateus03/api-de-clima", 
+    textoLink: "Ver no GitHub"
+  },
+  {
+    titulo: "DRMConnect",
+    tipo: "Web",
+    cor: "#4ADE80",
+    arte: ArteDrmConnect,
+    resumo: "A rede social da minha escola.",
+    detalhe: "Uma rede social criada para os alunos da escola se conectarem, compartilharem e conversarem em um só lugar. Feita com React no front-end e Supabase no back-end.",
+    stack: ["React", "Supabase"],
+    link: "https://github.com/jmateus03/drmconnect", 
+    textoLink: "Ver no GitHub"
+  },
   {
     titulo: "HandMouse Controller",
     tipo: "Code",
     cor: "#5CC8D7",
-    imagem: HandMouse,
+    arte: ArteHandMouse,
     resumo: "Controle seu computador com as mãos.",
-    detalhe:  "A webcam captura a sua mão e o programa identifica a posição dos dedos em tempo real. O cursor acompanha o movimento e gestos, como juntar os dedos, viram cliques. Não precisa de nenhum hardware extra além da câmera.",
+    detalhe: "A webcam captura a sua mão e o programa identifica a posição dos dedos em tempo real. O cursor acompanha o movimento e gestos, como juntar os dedos, viram cliques. Não precisa de nenhum hardware extra além da câmera.",
     stack: ["Python"],
     link: "https://github.com/jmateus03/handMouse-controller",
     textoLink: "Ver no GitHub"
+  },
+  {
+    titulo: "Mais projetos em breve",
+    tipo: "Em breve",
+    cor: "#A1A1AA",
+    arte: ArteEmBreve,
+    resumo: "Sempre tem algo novo sendo construído.",
+    detalhe: "Estou sempre estudando e criando coisas novas, do código ao circuito. Novos projetos vão aparecer aqui, volte em breve!"
   }
 ]
 
@@ -52,7 +322,7 @@ const ALTURA_CARD = 560
 const GAP = 32
 
 function Frente({ projeto }) {
-  const { titulo, tipo, cor, imagem } = projeto
+  const { titulo, tipo, cor, imagem, arte: Ilustracao, resumo } = projeto
   return (
     <div className="flex h-full w-full select-none flex-col justify-between p-8 text-left">
       <span
@@ -62,20 +332,24 @@ function Frente({ projeto }) {
         {tipo}
       </span>
 
-      {imagem && (
-        <img
-          src={imagem}
-          alt={titulo}
-          draggable={false}
-          className="pointer-events-none h-52 w-full rounded-2xl object-cover"
-        />
+      {Ilustracao ? (
+        <Ilustracao cor={cor} />
+      ) : (
+        imagem && (
+          <img
+            src={imagem}
+            alt={titulo}
+            draggable={false}
+            className="pointer-events-none h-52 w-full rounded-2xl object-cover"
+          />
+        )
       )}
 
       <div>
         <h2 className="text-3xl font-semibold leading-tight tracking-tight text-white">
           {titulo}
         </h2>
-        <p className="mt-3 text-base leading-relaxed text-zinc-400">{projeto.resumo}</p>
+        <p className="mt-3 text-base leading-relaxed text-zinc-400">{resumo}</p>
       </div>
     </div>
   )
@@ -161,6 +435,10 @@ function Seta({ direcao, onClick }) {
   )
 }
 
+/* ============================================================
+   PÁGINA
+   ============================================================ */
+
 export default function Projetos() {
   const trilho = useRef(null)
 
@@ -194,11 +472,10 @@ export default function Projetos() {
             Meus projetos
           </h1>
           <p className="mt-5 text-base leading-relaxed text-zinc-400">
-            Do código ao circuito. Clique em um cartão para ver os detalhes.
+            Clique em um cartão para ver os detalhes.
           </p>
         </header>
 
-        {/* Carrossel */}
         <div className="mt-12">
           <div
             ref={trilho}
