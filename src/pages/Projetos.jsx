@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import FlipCard from "../components/FlipCard"
 import Navbar from "./../components/Navbar"
 
@@ -69,7 +69,6 @@ const pontos = (lista) => lista.map((p) => p.join(",")).join(" ")
 function ArteHandMouse({ cor }) {
   return (
     <Arte cor={cor}>
-
       <rect x="20" y="18" width="36" height="24" rx="5" strokeWidth="2.5" />
       <circle cx="38" cy="30" r="6" strokeWidth="2.5" />
       <circle cx="38" cy="30" r="2" fill={cor} stroke="none" />
@@ -122,7 +121,6 @@ function ArteHandMouse({ cor }) {
 function ArtePortfolio({ cor }) {
   return (
     <Arte cor={cor}>
-
       <rect x="50" y="26" width="260" height="156" rx="10" fill={cor} fillOpacity="0.06" />
       <line x1="50" y1="54" x2="310" y2="54" strokeWidth="2" />
       <circle cx="68" cy="40" r="3.5" fill={cor} stroke="none" />
@@ -145,8 +143,6 @@ function ArtePortfolio({ cor }) {
     </Arte>
   )
 }
-
-/* ---------- Clima ---------- */
 
 function ArteClima({ cor }) {
   return (
@@ -202,28 +198,23 @@ const nos = [
 function ArteDrmConnect({ cor }) {
   return (
     <Arte cor={cor}>
-      {/* Conexões */}
       {nos.map(([x, y]) => (
         <line key={`l-${x}-${y}`} x1="180" y1="104" x2={x} y2={y} strokeWidth="2" opacity="0.4" />
       ))}
 
-      {/* Usuários */}
       {nos.map(([x, y]) => (
         <Pessoa key={`p-${x}-${y}`} x={x} y={y} />
       ))}
 
-      {/* Usuário central */}
       <circle cx="180" cy="104" r="30" fill={cor} fillOpacity="0.12" />
       <Pessoa x={180} y={104} r={26} />
 
-      {/* Coração */}
       <path
         d="M232 70 C218 58 224 46 232 54 C240 46 246 58 232 70 Z"
         fill={cor}
         stroke="none"
       />
 
-      {/* Balão de mensagem */}
       <path
         d="M114 100 H146 Q152 100 152 106 V120 Q152 126 146 126 H128 L120 134 V126 H114 Q108 126 108 120 V106 Q108 100 114 100 Z"
         strokeWidth="2"
@@ -260,8 +251,6 @@ function ArteEmBreve({ cor }) {
   )
 }
 
-const GITHUB = "https://github.com/jmateus03"
-
 const projetos = [
   {
     titulo: "Portfólio",
@@ -282,7 +271,7 @@ const projetos = [
     resumo: "Veja o tempo de qualquer cidade.",
     detalhe: "Um site que consome a API do Open-Meteo para mostrar o clima de uma cidade, como temperatura, chance de chuva e vento, em uma interface simples feita com HTML, CSS e JavaScript.",
     stack: ["HTML", "CSS", "JavaScript", "Open-Meteo"],
-    link: "https://github.com/jmateus03/api-de-clima", 
+    link: "https://github.com/jmateus03/api-de-clima",
     textoLink: "Ver no GitHub"
   },
   {
@@ -293,7 +282,7 @@ const projetos = [
     resumo: "A rede social da minha escola.",
     detalhe: "Uma rede social criada para os alunos da escola se conectarem, compartilharem e conversarem em um só lugar. Feita com React no front-end e Supabase no back-end.",
     stack: ["React", "Supabase"],
-    link: "https://github.com/jmateus03/drmconnect", 
+    link: "https://github.com/jmateus03/drmconnect",
     textoLink: "Ver no GitHub"
   },
   {
@@ -320,6 +309,7 @@ const projetos = [
 const LARGURA_CARD = 420
 const ALTURA_CARD = 560
 const GAP = 32
+const PASSO = LARGURA_CARD + GAP
 
 function Frente({ projeto }) {
   const { titulo, tipo, cor, imagem, arte: Ilustracao, resumo } = projeto
@@ -412,13 +402,17 @@ function Verso({ projeto }) {
   )
 }
 
-function Seta({ direcao, onClick }) {
+function Seta({ direcao, onClick, visivel }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      tabIndex={visivel ? 0 : -1}
+      aria-hidden={!visivel}
       aria-label={direcao === "esquerda" ? "Projeto anterior" : "Próximo projeto"}
-      className="flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+      className={`flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition hover:bg-white/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white ${
+        visivel ? "opacity-100" : "pointer-events-none opacity-0"
+      }`}
     >
       <svg
         viewBox="0 0 24 24"
@@ -435,16 +429,27 @@ function Seta({ direcao, onClick }) {
   )
 }
 
-/* ============================================================
-   PÁGINA
-   ============================================================ */
-
 export default function Projetos() {
   const trilho = useRef(null)
+  const [podeEsquerda, setPodeEsquerda] = useState(false)
+  const [podeDireita, setPodeDireita] = useState(true)
+
+  function atualizarSetas() {
+    const el = trilho.current
+    if (!el) return
+    setPodeEsquerda(el.scrollLeft > 4)
+    setPodeDireita(el.scrollLeft < el.scrollWidth - el.clientWidth - 4)
+  }
+
+  useEffect(() => {
+    atualizarSetas()
+    window.addEventListener("resize", atualizarSetas)
+    return () => window.removeEventListener("resize", atualizarSetas)
+  }, [])
 
   function mover(sentido) {
     trilho.current?.scrollBy({
-      left: sentido * (LARGURA_CARD + GAP),
+      left: sentido * PASSO,
       behavior: "smooth"
     })
   }
@@ -479,6 +484,7 @@ export default function Projetos() {
         <div className="mt-12">
           <div
             ref={trilho}
+            onScroll={atualizarSetas}
             className="flex snap-x snap-mandatory overflow-x-auto py-12 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             style={{
               gap: GAP,
@@ -505,12 +511,10 @@ export default function Projetos() {
             ))}
           </div>
 
-          {projetos.length > 1 && (
-            <div className="mt-2 flex items-center justify-center gap-4">
-              <Seta direcao="esquerda" onClick={() => mover(-1)} />
-              <Seta direcao="direita" onClick={() => mover(1)} />
-            </div>
-          )}
+          <div className="mt-2 flex items-center justify-center gap-4">
+            <Seta direcao="esquerda" onClick={() => mover(-1)} visivel={podeEsquerda} />
+            <Seta direcao="direita" onClick={() => mover(1)} visivel={podeDireita} />
+          </div>
         </div>
       </section>
     </main>
